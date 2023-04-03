@@ -1,0 +1,29 @@
+{
+  "name": "apirest_express_node_mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuilhermeDMLopes/API_lidando_BuscaFiltroPaginacaoErros"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuilhermeDMLopes/API_lidando_BuscaFiltroPaginacaoErros/issues"
+  },
+  "homepage": "https://github.com/GuilhermeDMLopes/API_lidando_BuscaFiltroPaginacaoErros#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.2.6"
+  }
+}
