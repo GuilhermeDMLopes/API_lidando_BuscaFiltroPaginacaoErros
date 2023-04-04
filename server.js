@@ -7,8 +7,5 @@ app.listen(port, () => {
 });
 
 /*
-validando dados de forma personalizada em Livro.js
 
-Faremos a validação global (nenhuma string vazia por ex:).
-Para isso, criaremos um arquivo index.js e validadorGlobal.js em Models para fazer a validação global
 */

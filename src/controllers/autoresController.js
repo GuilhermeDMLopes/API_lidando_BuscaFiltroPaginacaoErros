@@ -1,5 +1,4 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-//Alterando importação de modelos
 import { autores } from "../models/index.js";
 
 class AutorController {

@@ -1,5 +1,4 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-//Alterando importação de livros
 import { livros } from "../models/index.js";
 
 class LivroController {
@@ -78,11 +77,40 @@ class LivroController {
     }
   };
 
-  static listarLivrosPorEditora = async (req, res, next) => {
+  //Alterando para buscar por filtros
+  static listarLivrosPorFiltro = async (req, res, next) => {
     try {
-      const editora = req.query.editora;
+      //Fazer busca tanto por editora, titulo, minPaginas e maxPaginas
+      const { editora, titulo, minPaginas, maxPaginas } = req.query;
       
-      const livrosResultado = await livros.find({"editora": editora});
+      //Pegando regex do parametro
+      //const regex = new RegExp(titulo, "i");
+
+      //Deixando a busca mais dinamica, podendo ser filtrado por um ou outro
+      const busca = {};
+
+      //Se houver editora, ele busca pela editora passada no parametro
+      if(editora) busca.editora = editora;
+
+      //Se houver titulo, busca pelo titulo passado como parametro
+      //if(titulo) busca.titulo = titulo;
+      //Utilizando REGEX (pega todos que contiverem node no nome). o 'i' é para buscar por maiusculo ou minusculo
+      //if(titulo) busca.titulo = /node/i;
+      //Utilizando regex que vem por parametro
+      //if(titulo) busca.titulo = regex;
+      //Outra forma de utilizar regex é por operadores do MongoDB
+      if(titulo) busca.titulo = { $regex: titulo, $options: "i" };
+
+      if(minPaginas) busca.numeroPaginas = { $gte: minPaginas };
+      if(maxPaginas) busca.numeroPaginas = { $lte: maxPaginas };
+      /*//Busca de forma estatica, obrigatoriamente tem que ter os 2
+      const livrosResultado = await livros.find({
+        //Busca no campo editora e titulo um valor de editora e titulo
+        editora: editora,
+        titulo: titulo
+      });*/
+      //Busca de forma dinamica abaixo
+      const livrosResultado = await livros.find(busca);
 
       res.status(200).send(livrosResultado);
     } catch (erro) {
