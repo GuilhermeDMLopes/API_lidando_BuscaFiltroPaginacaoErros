@@ -7,32 +7,19 @@ app.listen(port, () => {
 });
 
 /*
-Colocando arquivo .env e ESLint
+Adicionando Middlewares do express para fazermos tratamento de erros
 
-.env é um arquivo para colocarmos dados sensíveis e que não devem ser compartilhados
-npm install dotenv
+Em apps.js fizemos as alterações para o app utilizar o middleware.
+Criamos a pasta de middlewares com o arquivo e sua respectiva função.
 
-ESlint ferramenta de auxilio que ajuda a manter um padrão de formatação e identificar bugs no JS
-npm init @eslint/config
+Middlewares  são funções que interceptam alguma ação/requisição que é feita na nossa API
+Para registrar um middleware que é executado em todas as requisições para a API, 
+independente da rota ou do método HTTP, utilizamos o método app.use.
 
-utlizamos setas para cima e para baixo para selecionar as configurações do eslint e também a tecla
-espaço para selecionar e desmarcar as opções.
-NO JSON do ESLint, alteramos o objeto rules, indent, de 4 para 2. É a quantidade de espaços para nossa
-identação.
+Isso porque a ordem em que os middlewares são registrados na aplicação é importante. Como o middleware 
+acima foi registrado antes dos métodos dos controladores, seu código será executado primeiro para qualquer requisição. 
+E se um middleware enviar uma resposta para o cliente (nesse caso, com o método send), o fluxo da requisição encerra nessa resposta, 
+e quaisquer middlewares registrados depois desse não serão executados. Afinal, apenas uma resposta pode ser enviada para cada requisição.
 
-usamos o comando:
-npx eslint ./src --fix
-que executa nossas configurações na pasta ./src corrigindo o que não estiver no padrão do arquivo ESLint.
-
-Instalando a extensão do ESLint no VSCODE, ele ira apresentar em tempo real, toda linha de código que não está no padrão do
-arquivo ESLint.
-
-Para que o ESLint seja executado toda vez que salvamos um arquivo. Vamos em:
-ctrl + shift + p
-escrevemos 'settings'.
-Default User Settings (JSON).
-adicionamos no final
-  "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": true
-  }
+Então, como fazer os próximos middlewares registrados serem executados? Para isso, podemos receber a função next como terceiro parâmetro (“next” significa “próximo”, do inglês)
 */

@@ -1,14 +1,8 @@
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import autores from "../models/Autor.js";
 
 class AutorController {
-  /*static listarAutores = (req, res) => {
-    autores.find((err, autores) => {
-      res.status(200).json(autores);
-    });    
-  };*/
 
-  //Refatorando a função listarAutores utilizando async e await e tratamento de erros
   static listarAutores = async (req, res) => {
     try {
       const autoresResultado = await autores.find();
@@ -19,13 +13,13 @@ class AutorController {
     }    
   };
 
-  static listarAutorPorId = ( async (req, res) => {
+  //Adicionando metodo de controlador next para usarmos o middleware
+  static listarAutorPorId = ( async (req, res, next) => {
     try {
       const id = req.params.id;
 
       const autoresPorIDResultado = await autores.findById(id);
 
-      //Caso o ID não seja de um usuario valido, a variavel autoresPorIDResultado, virá nula. Precisamos tratar este erro
       if (autoresPorIDResultado !== null) {
         res.status(200).send(autoresPorIDResultado);
       } else {
@@ -33,15 +27,19 @@ class AutorController {
       }
 
     } catch (erro) {
-      //Se o ID não estiver no padrão correto
-      if(erro instanceof mongoose.Error.CastError) {
+      /*if(erro instanceof mongoose.Error.CastError) {
         res.status(400).send({message: "Um ou mais dados fornecidos estão incorretos"});
       }
       res.status(500).send({message: "Erro interno de servidor"});
-    }    
+    } */
+      //substituindo pelo middleware em app.js
+      //Next encaminha o erro obtido no controlador e mandar para o middleware de tratamento de erros em app.js
+      next(erro);
+    }   
   });
 
-  static cadastrarAutor = async (req, res) => {
+  //Adicionando Middleware para as demais funções
+  static cadastrarAutor = async (req, res, next) => {
     try {
       let autor = new autores(req.body);
 
@@ -49,11 +47,12 @@ class AutorController {
 
       res.status(201).send(cadastroAutoresResultado.toJSON());
     } catch (erro) {
-      res.status(500).send({message: `${erro.message} - falha ao cadastrar Autor.`});
+      //res.status(500).send({message: `${erro.message} - falha ao cadastrar Autor.`});
+      next(erro);
     }    
   };
 
-  static atualizarAutor = async (req, res) => {
+  static atualizarAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -61,11 +60,12 @@ class AutorController {
 
       res.status(200).send({message: "Autor atualizado com sucesso"});
     } catch (erro) {
-      res.status(500).send({message: `${erro.message}- falha ao atualizar`});
+      //res.status(500).send({message: `${erro.message}- falha ao atualizar`});
+      next(erro);
     }    
   };
 
-  static excluirAutor = async (req, res) => {
+  static excluirAutor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -73,7 +73,8 @@ class AutorController {
 
       res.status(200).send({message: "Autor removido com sucesso"});
     } catch (erro) {
-      res.status(500).send({message: erro.message});
+      //res.status(500).send({message: erro.message});
+      next(erro);
     }
   };
     
