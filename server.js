@@ -22,4 +22,6 @@ E se um middleware enviar uma resposta para o cliente (nesse caso, com o método
 e quaisquer middlewares registrados depois desse não serão executados. Afinal, apenas uma resposta pode ser enviada para cada requisição.
 
 Então, como fazer os próximos middlewares registrados serem executados? Para isso, podemos receber a função next como terceiro parâmetro (“next” significa “próximo”, do inglês)
+
+Agora, faremos a refatoração do código, criando um pacote chamado erros que trata cada erro em específico.
 */
