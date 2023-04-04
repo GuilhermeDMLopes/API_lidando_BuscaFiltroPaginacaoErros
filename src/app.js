@@ -15,11 +15,8 @@ app.use(express.json());
 
 routes(app);
 
-//Criando middleware para tratar o erro 404
 app.use(manipulador404);
 
-//adicionando middleware. Sera executada em toda (ou algumas) requisição que é feita pela API
-//Middleware de erro tem 4 parametros. Intercepta qualquer erro identificado por nossa aplicação para não haver repetição nos controladores
 app.use(manipuladorDeErros);
 
 export default app;

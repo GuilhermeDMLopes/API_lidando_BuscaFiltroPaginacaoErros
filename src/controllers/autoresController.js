@@ -1,6 +1,6 @@
-//import mongoose from "mongoose";
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-import autores from "../models/Autor.js";
+//Alterando importação de modelos
+import { autores } from "../models/index.js";
 
 class AutorController {
 
@@ -14,7 +14,6 @@ class AutorController {
     }    
   };
 
-  //Adicionando metodo de controlador next para usarmos o middleware
   static listarAutorPorId = ( async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -24,24 +23,14 @@ class AutorController {
       if (autoresPorIDResultado !== null) {
         res.status(200).send(autoresPorIDResultado);
       } else {
-        //res.status(404).send({message: "Autor não encontrado"});
-        //Substituindo pelo middleware para 404
         next(new NaoEncontrado("Id do Autor não encontrado"));
       }
 
-    } catch (erro) {
-      /*if(erro instanceof mongoose.Error.CastError) {
-        res.status(400).send({message: "Um ou mais dados fornecidos estão incorretos"});
-      }
-      res.status(500).send({message: "Erro interno de servidor"});
-    } */
-      //substituindo pelo middleware em app.js
-      //Next encaminha o erro obtido no controlador e mandar para o middleware de tratamento de erros em app.js
+    } catch (erro) { 
       next(erro);
     }   
   });
 
-  //Adicionando Middleware para as demais funções
   static cadastrarAutor = async (req, res, next) => {
     try {
       let autor = new autores(req.body);
@@ -50,7 +39,6 @@ class AutorController {
 
       res.status(201).send(cadastroAutoresResultado.toJSON());
     } catch (erro) {
-      //res.status(500).send({message: `${erro.message} - falha ao cadastrar Autor.`});
       next(erro);
     }    
   };
@@ -67,7 +55,6 @@ class AutorController {
         next(new NaoEncontrado("Id do Autor não localizado"));
       }
     } catch (erro) {
-      //res.status(500).send({message: `${erro.message}- falha ao atualizar`});
       next(erro);
     }    
   };
@@ -84,7 +71,6 @@ class AutorController {
         next(new NaoEncontrado("Id do Autor não localizado"));
       }
     } catch (erro) {
-      //res.status(500).send({message: erro.message});
       next(erro);
     }
   };

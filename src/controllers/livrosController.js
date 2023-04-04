@@ -1,20 +1,17 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-import livros from "../models/Livro.js";
-//Adicionando middleware de tratamento de erros conforme autoresController.js
+//Alterando importação de livros
+import { livros } from "../models/index.js";
 
 class LivroController {
  
   static listarLivros = async (req, res, next) => {
     try {
-      //Forçando um erro para testar ErroBase.js em manipuladorDeErros
-      //throw new Error();
       const livrosResultado = await livros.find()
         .populate("autor")
         .exec();
 
       res.status(200).json(livrosResultado);
     } catch (erro) {
-      //res.status(500).json({ message: "Erro interno no servidor" });
       next(erro);
     }
   };
@@ -33,7 +30,6 @@ class LivroController {
         next(new NaoEncontrado("Id do livro não localizado"));
       }
     } catch (erro) {
-      //res.status(400).send({message: `${erro.message} - Id do livro não localizado.`});
       next(erro);
     }
   };
@@ -46,7 +42,6 @@ class LivroController {
 
       res.status(201).send(livroResultado.toJSON());
     } catch (erro) {
-      //res.status(500).send({message: `${erro.message} - falha ao cadastrar livro.`});
       next(erro);
     }
   };
@@ -63,7 +58,6 @@ class LivroController {
         next(new NaoEncontrado("Id do livro não localizado"));
       }
     } catch (erro) {
-      //res.status(500).send({message: erro.message});
       next(erro);
     }
   };
@@ -80,7 +74,6 @@ class LivroController {
         next(new NaoEncontrado("Id do livro não localizado"));
       }
     } catch (erro) {
-      //res.status(500).send({message: erro.message});
       next(erro);
     }
   };
@@ -93,7 +86,6 @@ class LivroController {
 
       res.status(200).send(livrosResultado);
     } catch (erro) {
-      //res.status(500).json({ message: "Erro interno no servidor" });
       next(erro);
     }  
   };
