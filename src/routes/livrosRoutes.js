@@ -5,7 +5,6 @@ import paginar from "../middlewares/paginar.js";
 const router = express.Router();
 
 router
-//importando middleware para listar livros. Middleware para uma rota específica
   .get("/livros", LivroController.listarLivros, paginar)
   .get("/livros/busca", LivroController.listarLivrosPorFiltro, paginar)
   .get("/livros/:id", LivroController.listarLivroPorId)

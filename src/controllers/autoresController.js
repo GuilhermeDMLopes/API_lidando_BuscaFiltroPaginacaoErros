@@ -2,16 +2,13 @@ import NaoEncontrado from "../erros/NaoEncontrado.js";
 import { autores } from "../models/index.js";
 
 class AutorController {
-//Adicionando next para paginação
   static listarAutores = async (req, res, next) => {
     try {
-      //refatorando para utilizar middleware de paginação. Igual em LivrosController
       const autoresResultado = autores.find();
 
       req.resultado = autoresResultado;
 
       next();
-      //res.status(200).json(autoresResultado);
     } catch (erro) {
       res.status(500).json({ message: "Erro interno no servidor" });
     }    

@@ -5,7 +5,6 @@ import paginar from "../middlewares/paginar.js";
 const router = express.Router();
 
 router
-//adicionando middleware de paginação
   .get("/autores", AutorController.listarAutores, paginar)
   .get("/autores/:id", AutorController.listarAutorPorId)
   .post("/autores", AutorController.cadastrarAutor) 
