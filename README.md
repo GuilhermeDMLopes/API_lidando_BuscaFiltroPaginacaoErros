@@ -11,3 +11,5 @@
 - validandoDados: Refatoração dos arquivos em Models para validarmos de forma personalizada e global.
 
 - avancandoBuscasFiltros: Implementação de buscas e filtros por editora, titulo, numero de paginas, filtros por minim e máximo de paginas e busca por nome do autor.
+
+- implementandoPaginacao: Arquivos contendo paginação nos filtros e a criação de um novo middleware de paginação para rotas específicas
