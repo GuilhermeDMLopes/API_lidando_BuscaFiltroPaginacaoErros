@@ -7,8 +7,13 @@ app.listen(port, () => {
 });
 
 /*
-Iremos refatorar o codigo implementando função para filtrar e buscar em livrosController.
+Quando o Front-End faz uma requisição pedindo todos os livros. A medida que a quantidade dos mesmos forem aumentando,
+esse processo se torna inviavel e custoso.
+Podemos realizar essa amostragem por partes (de 10 em 10 por exemplo) para facilitar a visualização e o Front-End.
+Esse processo chama-se Paginação (a cada 10 livros, seria uma página, por exemplo)
 
-Faremos um filtro pelo nome do altor na função processaBusca.
-Como em Livro.js, a chave "autor" recebe um ID como valor, precisaremos fazer um trecho mais robusto.
+Agora faremos a ordenação dos resultados
+
+Finalizando com o reaproveitamento de paginação em outras rotas.
+Vamos criar um middleware para paginação
 */
