@@ -15,5 +15,13 @@ Esse processo chama-se Paginação (a cada 10 livros, seria uma página, por exe
 Agora faremos a ordenação dos resultados
 
 Finalizando com o reaproveitamento de paginação em outras rotas.
-Vamos criar um middleware para paginação
+Vamos criar um middleware para paginação.
+
+Tivemos problema com o .populate("autor") do middleware.
+O modelo autor, não possui esse campo, então precisamos remover.
+
+Para fazer o populate do campo autor em livros, baixamos o plugin
+npm install mongoose-autopopulate
+
+Feito isso, faremos as alterações em Livro.js
 */

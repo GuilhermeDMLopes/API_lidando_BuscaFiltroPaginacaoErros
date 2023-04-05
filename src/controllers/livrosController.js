@@ -1,11 +1,12 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-import RequisicaoIncorreta from "../erros/RequisicaoIncorreta.js";
+//import RequisicaoIncorreta from "../erros/RequisicaoIncorreta.js";
 import { autores, livros } from "../models/index.js";
 
 class LivroController {
  
   static listarLivros = async (req, res, next) => {
     try {
+      /*SUBSTITUINDO POR MIDDLEWARE
       //Realizando paginação
       //Qual o limite de livros que eu quero mostrar em uma pagina/requisição.
       //Passamos um campo para ser ordenado e se será crescente ou decrescente
@@ -37,8 +38,14 @@ class LivroController {
         res.status(200).json(livrosResultado);
       } else {
         next(new RequisicaoIncorreta());
-      }
+      }*/
 
+      const buscaLivros = livros.find();
+
+      //Passando o resultado da busca para o middleware
+      req.resultado = buscaLivros;
+
+      next();
     } catch (erro) {
       next(erro);
     }
@@ -48,7 +55,9 @@ class LivroController {
     try {
       const id = req.params.id;
 
-      const livroResultados = await livros.findById(id)
+      //Alteração feita depois de colocar o autopopulate
+      const livroResultados = await livros
+        .findById(id, {}, {autopopulate: false})
         .populate("autor", "nome")
         .exec();
 
@@ -111,11 +120,19 @@ class LivroController {
       const busca = await processaBusca(req.query);
 
       if(busca !== null) {
-        const livrosResultado = await livros
-          .find(busca)
-          .populate("autor");
+        //refatorando para implementar paginação (remover await)
+        const livrosResultado = livros
+          .find(busca);
+          //Depois de fazer o autopopulate em Livro.js podemos remover
+          //.populate("autor");
+
+        //resultado do middleware de paginação
+        req.resultado = livrosResultado;
+
+        //Executando middleware de paginação
+        next();
   
-        res.status(200).send(livrosResultado);        
+        //res.status(200).send(livrosResultado);        
       } else {
         res.status(200).send([]);
       }      
